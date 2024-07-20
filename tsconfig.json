@@ -4,8 +4,8 @@
     "module": "NodeNext",
     "rootDir": "./src",
     "outDir": "./dist",
-   "moduleResolution": "NodeNext", 
-   "sourceMap":true 
+    "moduleResolution": "NodeNext",
+    "sourceMap": true
   },
   "include": ["src/**/*"]
 }

@@ -11,6 +11,8 @@ import express from "express";
 import mongoose, { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 import { Router } from "express";
+import jwt from "jsonwebtoken";
+const secertkey = "hgfsdartwfssggbdhdbhsbdjsbssjnsb";
 const app = express();
 const PORT = 5001;
 mongoose.connect("mongodb://127.0.0.1:27017/typescripts")
@@ -45,7 +47,8 @@ router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function*
             email,
             password: hashedPassword
         });
-        return res.status(201).json({ createUser, message: "Signup Successful" });
+        const token = jwt.sign({ createUser: createUser._id }, secertkey, { expiresIn: "5d" });
+        return res.status(201).json({ token, createUser, message: "Signup Successful" });
     }
     catch (error) {
         return res.status(500).json({ message: "Error in Signup", error });
@@ -62,7 +65,8 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (!isMatch) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
-        return res.status(200).json({ user, message: "Login Successful" });
+        const token = jwt.sign({ user: user._id }, secertkey, { expiresIn: "5d" });
+        return res.status(200).json({ token, user, message: "Login Successful" });
     }
     catch (error) {
         return res.status(500).json({ message: "Error in Login", error });
